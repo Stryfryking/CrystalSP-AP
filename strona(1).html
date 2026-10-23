@@ -1,0 +1,1215 @@
+
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#101820">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080b16">
+<title>CrystalSP — Game Studio</title>
+
+<style>
+:root {
+    --bg: #080b16;
+    --panel: #10162a;
+    --panel2: #151d35;
+    --blue: #55aaff;
+    --purple: #9867ff;
+    --text: #f4f6ff;
+    --muted: #9ca8c6;
+    --border: #ffffff13;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    margin: 0;
+    color: var(--text);
+    background:
+        radial-gradient(ellipse at 10% 0%, #39266c40, transparent 40%),
+        radial-gradient(ellipse at 95% 30%, #075caa24, transparent 35%),
+        var(--bg);
+    font-family: "Segoe UI", Arial, sans-serif;
+    min-height: 100vh;
+}
+button, input { font: inherit; }
+button, a { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+a { text-decoration: none; color: inherit; }
+.wrap { width: min(1180px, 92%); margin: auto; }
+
+header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #080b16ed;
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+}
+.nav {
+    min-height: 75px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+.logo { font-size: 24px; font-weight: 900; letter-spacing: -1px; }
+.logo span {
+    color: var(--blue);
+    text-shadow: 0 0 22px #55aaff70;
+}
+.nav-links { display: flex; align-items: center; gap: 7px; }
+.nav-links button {
+    border: 1px solid transparent;
+    background: transparent;
+    color: var(--muted);
+    padding: 10px 12px;
+    border-radius: 10px;
+    font-size: 13px;
+    transition: .2s;
+}
+.nav-links button:hover, .nav-links button.active {
+    color: white;
+    background: #568bff18;
+    border-color: #679aff30;
+}
+.menu-btn {
+    display: none;
+    color: white;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 9px 12px;
+    border-radius: 10px;
+}
+main { padding-bottom: 50px; }
+
+.page { display: none; padding: 38px 0 25px; animation: enter .3s ease; }
+.page.active { display: block; }
+@keyframes enter {
+    from { opacity: 0; transform: translateY(7px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 11px;
+    border: 1px solid #679aff36;
+    background: #477aff12;
+    color: #b9d0ff;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+}
+h1, h2, h3, p { overflow-wrap: anywhere; }
+h1 {
+    font-size: clamp(42px, 6vw, 72px);
+    letter-spacing: -3px;
+    line-height: 1.05;
+    margin: 22px 0;
+}
+h2 { font-size: clamp(29px, 4vw, 42px); letter-spacing: -1.3px; margin: 9px 0; }
+h3 { margin: 0 0 9px; }
+.gradient {
+    color: transparent;
+    background: linear-gradient(100deg, #65c6ff, #9c7aff 65%, #d9a6ff);
+    background-clip: text;
+    -webkit-background-clip: text;
+}
+.muted { color: var(--muted); }
+.small { font-size: 13px; }
+.hero {
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 35px;
+    align-items: center;
+    min-height: 410px;
+}
+.hero p { color: var(--muted); font-size: 16px; max-width: 580px; line-height: 1.8; }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 23px; }
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 11px;
+    padding: 11px 16px;
+    border: 1px solid var(--border);
+    color: white;
+    font-weight: 750;
+    font-size: 13px;
+    transition: .2s;
+}
+.btn:hover { transform: translateY(-2px); filter: brightness(1.13); }
+.primary {
+    border-color: transparent;
+    background: linear-gradient(110deg, #347dff, #8653f5);
+    box-shadow: 0 7px 25px #5b54ff26;
+}
+.secondary { background: #ffffff08; }
+.hero-visual {
+    min-height: 320px;
+    position: relative;
+    display: grid;
+    place-items: center;
+}
+.hero-visual img {
+    width: 100%;
+    height: 315px;
+    object-fit: cover;
+    border-radius: 23px;
+    border: 1px solid #ffffff20;
+    box-shadow: 0 25px 75px #0007;
+}
+.visual-label {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    right: 16px;
+    padding: 15px;
+    border: 1px solid #ffffff20;
+    background: #0a1020df;
+    backdrop-filter: blur(15px);
+    border-radius: 14px;
+}
+.visual-label strong { display: block; }
+.visual-label span { color: var(--muted); font-size: 12px; }
+
+.section-title { margin: 32px 0 19px; }
+.section-title .kicker { color: var(--blue); font-size: 11px; letter-spacing: 1.5px; font-weight: 850; }
+.section-title p { color: var(--muted); margin: 7px 0; }
+
+.grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
+.grid.two { grid-template-columns: repeat(2, 1fr); }
+.card {
+    min-width: 0;
+    background: linear-gradient(145deg, #151c32, #0d1222);
+    border: 1px solid var(--border);
+    border-radius: 17px;
+    padding: 21px;
+    transition: .2s;
+}
+.card:hover { border-color: #6f9aff50; transform: translateY(-3px); }
+.card p { color: var(--muted); font-size: 13px; line-height: 1.7; }
+.card-icon { font-size: 27px; margin-bottom: 11px; }
+.tag {
+    display: inline-block;
+    border: 1px solid #8e9fff25;
+    background: #687cff15;
+    color: #bfd0ff;
+    border-radius: 7px;
+    padding: 4px 8px;
+    font-size: 10px;
+    font-weight: 800;
+}
+.banner {
+    background: linear-gradient(120deg, #18386b, #39225f 75%, #18152e);
+    border: 1px solid #94aaff30;
+    padding: 25px;
+    border-radius: 19px;
+    margin: 24px 0;
+}
+.banner p { color: #d2daf2; }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.stat {
+    padding: 21px;
+    background: #11182b;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+}
+.stat .number { font-size: clamp(24px, 3vw, 35px); font-weight: 900; letter-spacing: -1px; }
+.stat .label { color: var(--muted); font-size: 12px; margin-top: 4px; }
+.stat .icon { font-size: 21px; }
+
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0; }
+.input {
+    min-width: 0;
+    width: 100%;
+    padding: 12px 13px;
+    color: white;
+    background: #090e1c;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    outline: none;
+}
+.input:focus { border-color: var(--blue); }
+.toolbar .input { flex: 1; min-width: 190px; }
+.filters { display: flex; flex-wrap: wrap; gap: 7px; }
+.filter {
+    color: var(--muted);
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 9px;
+    padding: 9px 12px;
+    font-size: 12px;
+}
+.filter.active { color: white; border-color: #6b9aff65; background: #5288ff22; }
+
+.game-cover {
+    height: 135px;
+    display: grid;
+    place-items: center;
+    font-size: 54px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    background:
+        radial-gradient(circle at 70% 25%, #8d64ff70, transparent 40%),
+        linear-gradient(135deg, #15375e, #24204e);
+}
+.status { margin: 12px 0; }
+.status .tag { background: #d9ae3a12; color: #f4d580; }
+.status .ready { background: #36d9a015; color: #7ceac3; }
+.game-card { display: flex; flex-direction: column; }
+.game-card .btn { margin-top: auto; width: 100%; }
+.game-card p { min-height: 60px; }
+
+.timeline { border-left: 1px solid #678cff50; margin: 23px 0 0 6px; }
+.event { position: relative; padding: 0 0 24px 23px; }
+.event::before {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    left: -5px;
+    top: 5px;
+    border-radius: 50%;
+    background: var(--blue);
+    box-shadow: 0 0 12px #55aaff80;
+}
+.event .date { color: var(--blue); font-size: 11px; font-weight: 850; }
+.event p { color: var(--muted); font-size: 13px; margin: 6px 0; }
+
+.profile {
+    display: grid;
+    grid-template-columns: .7fr 1.3fr;
+    gap: 20px;
+    align-items: stretch;
+}
+.profile-art {
+    min-height: 280px;
+    display: grid;
+    place-items: center;
+    border-radius: 18px;
+    font-size: 82px;
+    background: radial-gradient(circle, #7255d84d, transparent 55%), #10162a;
+    border: 1px solid var(--border);
+}
+.progress {
+    height: 7px;
+    border-radius: 20px;
+    background: #ffffff12;
+    overflow: hidden;
+    margin: 10px 0 18px;
+}
+.progress span { display: block; width: 100%; height: 100%; background: linear-gradient(90deg, var(--blue), var(--purple)); }
+
+.download-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    border-bottom: 1px solid var(--border);
+    padding: 16px 0;
+}
+.download-row:last-child { border-bottom: 0; }
+.download-row p { color: var(--muted); font-size: 12px; margin: 4px 0 0; }
+.download-row .btn { flex-shrink: 0; }
+.notice { padding: 13px 15px; background: #ffffff07; border: 1px solid var(--border); border-radius: 12px; color: var(--muted); font-size: 12px; line-height: 1.7; }
+
+footer { border-top: 1px solid var(--border); padding: 25px 0; color: var(--muted); font-size: 12px; }
+.footer-inner { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+.toast {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translate(-50%, 120px);
+    opacity: 0;
+    z-index: 30;
+    padding: 13px 17px;
+    max-width: 90%;
+    text-align: center;
+    background: #18213b;
+    border: 1px solid #7e9dff60;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px #0008;
+    transition: .25s;
+}
+.toast.show { transform: translate(-50%, 0); opacity: 1; }
+.empty { grid-column: 1/-1; text-align: center; padding: 30px; color: var(--muted); border: 1px dashed var(--border); border-radius: 14px; }
+
+@media(max-width: 950px) {
+    .nav { align-items: center; }
+    .nav-links { gap: 2px; }
+    .nav-links button { padding: 9px 8px; font-size: 12px; }
+    .hero { grid-template-columns: 1fr 1fr; }
+    .grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media(max-width: 700px) {
+    .menu-btn { display: block; }
+    .nav-links {
+        display: none;
+        position: absolute;
+        top: 75px;
+        left: 0;
+        right: 0;
+        padding: 12px 4%;
+        background: #0b1020;
+        border-bottom: 1px solid var(--border);
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .nav-links.open { display: flex; }
+    .nav-links button { text-align: left; padding: 12px; font-size: 14px; }
+    .hero, .profile { grid-template-columns: 1fr; }
+    .hero { padding-top: 20px; gap: 5px; }
+    .hero-visual { min-height: 245px; }
+    .hero-visual img { height: 245px; }
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .grid, .grid.two { grid-template-columns: 1fr; }
+    .game-card p { min-height: 0; }
+    .page { padding-top: 26px; }
+    h1 { letter-spacing: -2px; }
+}
+</style>
+</head>
+
+<body>
+<header>
+    <div class="wrap nav">
+        <a class="logo" href="#start" data-page="home">💎 Crystal<span>SP</span></a>
+        <button class="menu-btn" id="menuBtn">☰ Menu</button>
+        <nav class="nav-links" id="navLinks" aria-label="Główne menu">
+            <button class="active" data-page="home">🏠 Strona główna</button>
+            <button data-page="creator">👨‍💻 O twórcy</button>
+            <button data-page="games">🎮 Nasze gry</button>
+            <button data-page="files">📦 Pliki do gier</button>
+            <button data-page="future">🚀 Co nadchodzi?</button>
+            <button data-page="chatgpt">🤖 O ChatGPT</button>
+        </nav>
+    </div>
+</header>
+
+<main class="wrap">
+
+<!-- 1. STRONA GŁÓWNA -->
+<section class="page active" id="home">
+    <div class="hero">
+        <div>
+            <div class="eyebrow">✦ Niezależne centrum projektów</div>
+            <h1>Witaj w<br><span class="gradient">CrystalSP.</span></h1>
+            <p>
+                Miejsce, w którym powstają własne gry, pomysły i komputerowe
+                eksperymenty. Sprawdź nasze projekty, poznaj plany i śledź
+                rozwój CrystalSP.
+            </p>
+            <div class="actions">
+                <button class="btn primary" data-go="games">🎮 Odkryj nasze gry</button>
+                <button class="btn secondary" data-go="future">🚀 Plany na przyszłość</button>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <img src="https://images.unsplash.com/photo-1511512578047-dfb367046420?auto=format&fit=crop&w=1000&q=85"
+                 alt="Gamingowy klimat CrystalSP"
+                 onerror="this.style.display='none'">
+            <div class="visual-label">
+                <strong>💠 CrystalSP Studio</strong>
+                <span>Każdy projekt zaczyna się od pomysłu.</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="banner">
+        <div class="eyebrow">📢 Najnowsze informacje</div>
+        <h2>CrystalSP rozpoczyna nowy etap!</h2>
+        <p>Budujemy centrum naszych gier, plików, zapowiedzi i informacji o twórcy.</p>
+        <button class="btn secondary" data-go="future">Sprawdź, co nadchodzi →</button>
+    </div>
+
+    <div class="card account-panel">
+        <div class="eyebrow">🔐 PANEL UŻYTKOWNIKA</div>
+        <h2>Twoja ranga w <span class="gradient">CrystalSP</span></h2>
+        <p>Wpisz hasło, aby wyświetlić przypisaną rangę.</p>
+        <div class="toolbar">
+            <input class="input" id="rankPassword" type="password" placeholder="Wpisz hasło..." autocomplete="off" aria-label="Hasło do rangi">
+            <button class="btn primary" id="rankLogin">Zaloguj</button>
+            <button class="btn secondary" id="rankLogout" type="button">Wyloguj</button>
+        </div>
+        <div class="account-result" id="rankResult" aria-live="polite">Ranga: #Gość</div>
+        <div class="notice" style="margin-top:12px">To tylko prosty panel demonstracyjny. Hasła zapisane w kodzie strony można odczytać, więc nie używaj ich do prawdziwych kont ani prywatnych danych.</div>
+    </div>
+
+    <div class="section-title">
+        <div class="kicker">NA SKRÓTY</div>
+        <h2>Odkryj CrystalSP</h2>
+    </div>
+
+    <div class="grid">
+        <article class="card">
+            <div class="card-icon">🎮</div>
+            <h3>Nasze gry</h3>
+            <p>Pacman Polish, Instruktor Poradnik i gra o bazie danych.</p>
+            <button class="btn secondary" data-go="games">Przejdź do gier →</button>
+        </article>
+        <article class="card">
+            <div class="card-icon">📦</div>
+            <h3>Pliki do gier</h3>
+            <p>W jednym miejscu znajdą się wersje gier i instrukcje uruchamiania.</p>
+            <button class="btn secondary" data-go="files">Zobacz pliki →</button>
+        </article>
+        <article class="card">
+            <div class="card-icon">⏱️</div>
+            <h3>Historia twórcy</h3>
+            <p>Sprawdź szacowany czas pracy nad projektami i licznik bieżącej sesji.</p>
+            <button class="btn secondary" data-go="creator">Poznaj twórcę →</button>
+        </article>
+    </div>
+
+    <div class="section-title">
+        <div class="kicker">STATYSTYKI</div>
+        <h2>Droga twórcy</h2>
+    </div>
+    <div class="stats">
+        <div class="stat"><div class="icon">🎮</div><div class="number" id="projectCount">10</div><div class="label">Projekty w bibliotece</div></div>
+        <div class="stat"><div class="icon">✅</div><div class="number" id="completedCount">0</div><div class="label">Projekty oznaczone jako gotowe</div></div>
+        <div class="stat"><div class="icon">🤖</div><div class="number" id="aiProjectCount">7</div><div class="label">Projekty z pomocą ChatGPT</div></div>
+    </div>
+    <p class="notice" style="margin-top:12px">Statystyki liczą projekty oznaczone na tej stronie. Statusy i oznaczenia pomocy AI możesz zmienić w kartach projektów.</p>
+
+    <div class="section-title">
+        <div class="kicker">DZIENNIK</div>
+        <h2>Ostatnie informacje</h2>
+    </div>
+    <div class="card">
+        <div class="event">
+            <div class="date">NOWOŚĆ</div>
+            <h3>Struktura CrystalSP</h3>
+            <p>Strona została podzielona na sześć zaplanowanych zakładek.</p>
+        </div>
+        <div class="event">
+            <div class="date">W PLANACH</div>
+            <h3>Pliki i aktualizacje gier</h3>
+            <p>Kolejnym krokiem będzie podłączanie rzeczywistych plików i wersji projektów.</p>
+        </div>
+    </div>
+</section>
+
+<!-- 2. O TWÓRCY -->
+<section class="page" id="creator">
+    <div class="section-title">
+        <div class="kicker">POZNAJ TWÓRCĘ</div>
+        <h2>👨‍💻 O twórcy</h2>
+        <p>Osoba stojąca za pomysłami CrystalSP.</p>
+    </div>
+
+    <div class="profile">
+        <div class="profile-art">👨‍💻</div>
+        <div class="card">
+            <div class="eyebrow">Twórca CrystalSP</div>
+            <h2>Siema, jestem <span class="gradient">stryfrykin!</span></h2>
+            <p>
+                Chłopak, który tworzy gry, eksperymentuje z komputerami
+                i uczy się programowania. Przy wymyślaniu pomysłów,
+                rozwiązywaniu problemów i rozwijaniu projektów często
+                pomaga mu ChatGPT.
+            </p>
+            <p class="muted small">
+                To mój własny kącik projektów — miejsce na nowe pomysły,
+                kolejne wersje gier i naukę programowania.
+            </p>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <div class="kicker">MOJA PRACA</div>
+        <h2>Statystyki tworzenia</h2>
+    </div>
+    <div class="stats">
+        <div class="stat">
+            <div class="icon">🗓️</div>
+            <div class="number">Od wakacji</div>
+            <div class="label">Przybliżony początek pracy nad projektami</div>
+        </div>
+        <div class="stat">
+            <div class="icon">⏳</div>
+            <div class="number" id="creatorTotal">234–312 h</div>
+            <div class="label">Szacowany czas historyczny</div>
+        </div>
+        <div class="stat">
+            <div class="icon">🔥</div>
+            <div class="number" id="sessionClock">00:00:00</div>
+            <div class="label">Czas tej sesji na stronie</div>
+        </div>
+    </div>
+
+    <div class="banner">
+        <h3>🧮 Jak liczymy czas?</h3>
+        <p>
+            Wspominałeś, że spędzasz około 3–4 godzin dziennie nad projektami.
+            Wcześniejszy szacunek wynosił 234–312 godzin, ale nie jest to
+            pomiar historii rozmów. Dokładnego czasu nie da się automatycznie
+            odzyskać z tej strony.
+        </p>
+        <label for="pastHours" class="small">Własny szacunek wcześniejszego czasu w godzinach:</label>
+        <div class="toolbar">
+            <input class="input" id="pastHours" type="number" min="0" max="100000" value="273">
+            <button class="btn primary" id="saveHours">Zapisz czas</button>
+        </div>
+        <p class="small" id="timeMessage">Domyślna wartość to 273 godziny — środek wcześniejszego szacunku.</p>
+        <div class="notice">
+            Licznik sesji działa, gdy strona jest otwarta. Nie dolicza czasu
+            spędzonego w innych aplikacjach ani rozmów, kiedy strona jest zamknięta.
+        </div>
+    </div>
+</section>
+
+<!-- 3. NASZE GRY -->
+<section class="page" id="games">
+    <div class="section-title">
+        <div class="kicker">BIBLIOTEKA PROJEKTÓW</div>
+        <h2>🎮 Nasze gry</h2>
+        <p>Wyszukuj projekty i sprawdzaj ich status.</p>
+    </div>
+
+    <div class="toolbar">
+        <input class="input" id="gameSearch" placeholder="🔎 Szukaj gry..." aria-label="Szukaj gry">
+        <div class="filters">
+            <button class="filter active" data-filter="all">Wszystkie</button>
+            <button class="filter" data-filter="ready">Gotowe</button>
+            <button class="filter" data-filter="progress">W budowie</button>
+            <button class="filter" data-filter="idea">Pomysły</button>
+        </div>
+    </div>
+
+<div class="grid" id="gameGrid">
+
+    <article class="card game-card" data-status="progress"
+        data-search="eltronos karcianka karty smok goblin">
+        <div class="game-cover">🃏</div>
+        <span class="tag">KARCIANKA</span>
+        <h3>ELTRONOS</h3>
+        <p>Nasza karcianka z bohaterami, zaklęciami, maną i kartami o różnych rzadkościach.</p>
+        <div class="status"><span class="tag">Prototyp / rozwój</span></div>\n        <div class="ai-tag"><span class="tag">🤖 Pomoc ChatGPT</span></div>
+        <button class="btn secondary project-info" data-name="ELTRONOS">Informacje o grze</button>
+    </article>
+
+    <article class="card game-card" data-status="progress"
+        data-search="centrum dowodzenia kosmos astronauta operator misja">
+        <div class="game-cover">🛰️</div>
+        <span class="tag">SYMULATOR</span>
+        <h3>Centrum Dowodzenia</h3>
+        <p>Misje kosmiczne, operator, astronauta i naprawianie awarii na statku.</p>
+        <div class="status"><span class="tag">W budowie</span></div>\n        <div class="ai-tag"><span class="tag">🤖 Pomoc ChatGPT</span></div>
+        <button class="btn secondary project-info" data-name="Centrum Dowodzenia">Informacje o grze</button>
+    </article>
+
+    <article class="card game-card" data-status="progress"
+        data-search="smok dragon desktop pet zwierzak pulpit">
+        <div class="game-cover">🐉</div>
+        <span class="tag">DESKTOP PET</span>
+        <h3>Smok — Desktop Pet</h3>
+        <p>Pulpitowy smok, którego można karmić, myć, leczyć i zabierać do zabawy.</p>
+        <div class="status"><span class="tag">Rozwój projektu</span></div>\n        <div class="ai-tag"><span class="tag">🤖 Pomoc ChatGPT</span></div>
+        <button class="btn secondary project-info" data-name="Smok — Desktop Pet">Informacje o projekcie</button>
+    </article>
+
+    <article class="card game-card" data-status="progress"
+        data-search="kulka żółta piłka desktop pet kompan">
+        <div class="game-cover">🟡</div>
+        <span class="tag">DESKTOP PET</span>
+        <h3>KULKA</h3>
+        <p>Żółty, uśmiechnięty kompan na pulpit z własną animacją.</p>
+        <div class="status"><span class="tag">Projekt V1.0</span></div>\n        <div class="ai-tag"><span class="tag">🤖 Pomoc ChatGPT</span></div>
+        <button class="btn secondary project-info" data-name="KULKA">Informacje o projekcie</button>
+    </article>
+
+    <article class="card game-card" data-status="progress"
+        data-search="scratch terminal beta terminal konsola">
+        <div class="game-cover">💻</div>
+        <span class="tag">PROJEKT SYSTEMOWY</span>
+        <h3>Scratch Terminal</h3>
+        <p>Własny terminal w stylu systemowej konsoli z menu i komendami.</p>
+        <div class="status"><span class="tag">W budowie</span></div>\n        <div class="ai-tag"><span class="tag">🤖 Pomoc ChatGPT</span></div>
+        <button class="btn secondary project-info" data-name="Scratch Terminal">Informacje o projekcie</button>
+    </article>
+
+    <article class="card game-card" data-status="progress"
+        data-search="polski impostor losowanie rola uczeń sprzątaczka">
+        <div class="game-cover">🕵️</div>
+        <span class="tag">GRA TEKSTOWA</span>
+        <h3>Polski Impostor</h3>
+        <p>Projekt z losowaniem ról i menu gry napisany w Pythonie.</p>
+        <div class="status"><span class="tag">W budowie</span></div>\n        <div class="ai-tag"><span class="tag">🤖 Pomoc ChatGPT</span></div>
+        <button class="btn secondary project-info" data-name="Polski Impostor">Informacje o grze</button>
+    </article>
+
+    <article class="card game-card" data-status="progress"
+        data-search="random pick losowanie zadania procenty python">
+        <div class="game-cover">🎲</div>
+        <span class="tag">NARZĘDZIE / GRA</span>
+        <h3>Random Pick</h3>
+        <p>Losowanie między dwoma zadaniami, liczenie wyników i zapisywanie historii.</p>
+        <div class="status"><span class="tag">Rozwój projektu</span></div>\n        <div class="ai-tag"><span class="tag">🤖 Pomoc ChatGPT</span></div>
+        <button class="btn secondary project-info" data-name="Random Pick">Informacje o projekcie</button>
+    </article>
+
+    <article class="card game-card" data-status="progress"
+        data-search="pacman polish pacman arcade">
+        <div class="game-cover">👾</div>
+        <span class="tag">GRA ARCADE</span>
+        <h3>Pacman Polish</h3>
+        <p>Własna odsłona klasycznej gry z polskim klimatem.</p>
+        <div class="status"><span class="tag">Status do potwierdzenia</span></div>
+        <button class="btn secondary project-info" data-name="Pacman Polish">Informacje o grze</button>
+    </article>
+
+    <article class="card game-card" data-status="progress"
+        data-search="instruktor poradnik">
+        <div class="game-cover">🧭</div>
+        <span class="tag">PROJEKT</span>
+        <h3>Instruktor Poradnik</h3>
+        <p>Projekt poradnikowy, którego funkcje uzupełnimy według Twojego planu.</p>
+        <div class="status"><span class="tag">Status do potwierdzenia</span></div>
+        <button class="btn secondary project-info" data-name="Instruktor Poradnik">Informacje o projekcie</button>
+    </article>
+
+    <article class="card game-card" data-status="idea"
+        data-search="gra baza danych database edukacja">
+        <div class="game-cover">🗄️</div>
+        <span class="tag">GRA EDUKACYJNA</span>
+        <h3>Gra o bazie danych</h3>
+        <p>Pomysł na grę związaną z bazami danych.</p>
+        <div class="status"><span class="tag">Pomysł</span></div>
+        <button class="btn secondary project-info" data-name="Gra o bazie danych">Informacje o projekcie</button>
+    </article>
+
+</div>
+
+    <p class="notice" style="margin-top:18px">
+        Statusy są wstępne. Zmień je na prawdziwe, kiedy określimy, które projekty
+        są gotowe, a które nadal rozwijasz.
+    </p>
+</section>
+
+<!-- 4. PLIKI DO GIER -->
+<section class="page" id="files">
+    <div class="section-title">
+        <div class="kicker">CENTRUM POBIERANIA</div>
+        <h2>📦 Pliki do gier</h2>
+        <p>Tutaj będą dostępne pliki, wersje i instrukcje instalacji.</p>
+    </div>
+
+    <div class="banner">
+        <h3>📂 Biblioteka plików CrystalSP</h3>
+        <p>Nie dodajemy fikcyjnych pobrań. Każdy przycisk pobierania pojawi się dopiero po podłączeniu prawdziwego pliku.</p>
+    </div>
+
+    <div class="card">
+        <div class="download-row">
+            <div><strong>🃏 ELTRONOS</strong><p>Plik Python · plik gry</p></div>
+            <a class="btn primary" href="ELTRONOS.py" download>⬇ Pobierz ZIP</a>
+        </div>
+        <div class="download-row">
+            <div><strong>🛰️ Centrum Dowodzenia</strong><p>Plik Python · symulator misji</p></div>
+            <a class="btn primary" href="Centrum_Dowodzenia.py" download>⬇ Pobierz ZIP</a>
+        </div>
+    </div>
+    <div class="notice" style="margin-top:14px">
+        Aby pobieranie działało, umieść prawdziwe pliki <strong>ELTRONOS.zip</strong> i
+        <strong>Centrum_Dowodzenia.zip</strong> w tym samym folderze co plik HTML.
+        Same linki nie tworzą archiwów — trzeba dodać własne pliki ZIP.
+    </div>
+
+    <div class="section-title">
+        <h2>Jak dodamy pliki?</h2>
+    </div>
+    <div class="grid">
+        <div class="card"><div class="card-icon">1️⃣</div><h3>Przygotuj grę</h3><p>Wybierz działającą wersję projektu.</p></div>
+        <div class="card"><div class="card-icon">2️⃣</div><h3>Dodaj plik</h3><p>Umieścimy plik w odpowiednim miejscu i dodamy link.</p></div>
+        <div class="card"><div class="card-icon">3️⃣</div><h3>Udostępnij</h3><p>Użytkownik pobierze grę i otrzyma instrukcję uruchomienia.</p></div>
+    </div>
+</section>
+
+<!-- 5. CO NADCHODZI -->
+<section class="page" id="future">
+    <div class="section-title">
+        <div class="kicker">ROADMAPA</div>
+        <h2>🚀 Co nadchodzi?</h2>
+        <p>Plany na rozwój CrystalSP i przyszłych gier.</p>
+    </div>
+
+    <div class="card" style="margin:22px 0">
+        <div class="eyebrow">📰 DZIENNIK ZMIAN</div>
+        <h3>Dodaj aktualizację CrystalSP</h3>
+        <p>Wpisz tytuł, datę i opis. Wpisy zapisują się w tej przeglądarce.</p>
+        
+        <form id="updateForm" class="grid two" style="margin-top:18px">
+            <div>
+                <label class="small" for="updateTitle">Tytuł aktualizacji</label>
+                <input class="input" id="updateTitle" type="text" maxlength="100" placeholder="Np. CrystalSP V1.1" required>
+            </div>
+            <div>
+                <label class="small" for="updateDate">Data</label>
+                <input class="input" id="updateDate" type="date" required>
+            </div>
+            <div style="grid-column:1/-1">
+                <label class="small" for="updateDescription">Opis zmian</label>
+                <textarea class="input" id="updateDescription" rows="3" maxlength="1000" placeholder="Co zostało dodane lub poprawione?" required></textarea>
+            </div>
+            <div><button class="btn primary" type="submit">➕ Dodaj aktualizację</button></div>
+        </form>
+        <div class="timeline" id="updatesList" aria-live="polite"></div>
+        <div class="notice">Ważne: aktualizacje zapisane w localStorage są widoczne tylko w tej samej przeglądarce na tym urządzeniu. Do wspólnego dziennika dla znajomych potrzebny byłby serwer lub baza danych.</div>
+    </div>
+
+    <div class="grid">
+        <article class="card">
+            <div class="card-icon">🎮</div>
+            <span class="tag">PLAN</span>
+            <h3>Więcej gier</h3>
+            <p>Rozwijanie Pacman Polish, Instruktor Poradnik i gry o bazie danych.</p>
+        </article>
+        <article class="card">
+            <div class="card-icon">📦</div>
+            <span class="tag">PLAN</span>
+            <h3>Pliki do pobrania</h3>
+            <p>Udostępnianie działających wersji gier oraz instrukcji.</p>
+        </article>
+        <article class="card">
+            <div class="card-icon">📰</div>
+            <span class="tag">PLAN</span>
+            <h3>Aktualizacje gier</h3>
+            <p>Numery wersji, lista zmian i zapowiedzi kolejnych funkcji.</p>
+        </article>
+        <article class="card">
+            <div class="card-icon">✨</div>
+            <span class="tag">PLAN</span>
+            <h3>Lepszy wygląd</h3>
+            <p>Więcej neonowych efektów, grafik i animacji w stylu dashboardu.</p>
+        </article>
+        <article class="card">
+            <div class="card-icon">⏱️</div>
+            <span class="tag">PLAN</span>
+            <h3>Statystyki twórcy</h3>
+            <p>Historia pracy nad projektami i bardziej szczegółowe statystyki.</p>
+        </article>
+        <article class="card">
+            <div class="card-icon">🌐</div>
+            <span class="tag">PLAN</span>
+            <h3>Publikacja strony</h3>
+            <p>W przyszłości CrystalSP może być dostępne publicznie w internecie.</p>
+        </article>
+    </div>
+
+    <div class="banner">
+        <h2>Każda aktualizacja to krok naprzód.</h2>
+        <p>Po przygotowaniu nowych funkcji dodamy tutaj ich wersję i opis zmian.</p>
+        <button class="btn primary" data-go="games">Zobacz nasze gry →</button>
+    </div>
+</section>
+
+<!-- 6. O CHATGPT -->
+<section class="page" id="chatgpt">
+    <div class="section-title">
+        <div class="kicker">AI I PROGRAMOWANIE</div>
+        <h2>🤖 O ChatGPT</h2>
+        <p>Pomocnik w wymyślaniu, nauce i rozwijaniu projektów.</p>
+    </div>
+
+    <div class="profile">
+        <div class="profile-art">🤖</div>
+        <div class="card">
+            <div class="eyebrow">AI ASSISTANT</div>
+            <h2>Pomysł → Kod → <span class="gradient">Projekt</span></h2>
+            <p>
+                ChatGPT pomaga w planowaniu funkcji, tłumaczeniu błędów,
+                nauce programowania i szukaniu nowych pomysłów.
+                Ostateczny kierunek CrystalSP należy do twórcy.
+            </p>
+            <p class="muted small">
+                W projektach programistycznych ważne jest nie tylko uzyskanie
+                działającego kodu, ale też zrozumienie, jak on działa.
+            </p>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <h2>W czym pomaga AI?</h2>
+    </div>
+    <div class="grid">
+        <div class="card"><div class="card-icon">💡</div><h3>Pomysły</h3><p>Wymyślanie mechanik gier, funkcji i nowych projektów.</p></div>
+        <div class="card"><div class="card-icon">💻</div><h3>Programowanie</h3><p>Wyjaśnianie kodu, wyszukiwanie błędów i testowanie rozwiązań.</p></div>
+        <div class="card"><div class="card-icon">🧠</div><h3>Nauka</h3><p>Ćwiczenie nowych umiejętności krok po kroku.</p></div>
+    </div>
+
+    <div class="notice" style="margin-top:20px">
+        CrystalSP jest niezależnym projektem twórcy. Ta strona nie jest oficjalną stroną OpenAI.
+    </div>
+</section>
+
+</main>
+
+<footer>
+    <div class="wrap footer-inner">
+        <a class="logo" href="#start" data-page="home">💎 Crystal<span>SP</span></a>
+        <span>Autorski projekt · <span id="year"></span></span>
+        <span>Tworzone krok po kroku. 🚀</span>
+    </div>
+</footer>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+"use strict";
+
+// ====================================
+// NAWIGACJA — SZEŚĆ ZAKŁADEK
+// ====================================
+
+const pages = ["home", "creator", "games", "files", "future", "chatgpt"];
+const navLinks = document.getElementById("navLinks");
+const menuBtn = document.getElementById("menuBtn");
+
+function showPage(pageId) {
+    if (!pages.includes(pageId)) pageId = "home";
+
+    document.querySelectorAll(".page").forEach(page => {
+        page.classList.toggle("active", page.id === pageId);
+    });
+
+    document.querySelectorAll("[data-page]").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === pageId);
+    });
+
+    navLinks.classList.remove("open");
+    menuBtn.textContent = "☰ Menu";
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
+
+    if (location.hash !== "#" + pageId) {
+        history.replaceState(null, "", "#" + pageId);
+    }
+}
+
+document.querySelectorAll("[data-page]").forEach(button => {
+    button.addEventListener("click", () => showPage(button.dataset.page));
+});
+
+document.querySelectorAll("[data-go]").forEach(button => {
+    button.addEventListener("click", () => showPage(button.dataset.go));
+});
+
+menuBtn.addEventListener("click", () => {
+    const open = navLinks.classList.toggle("open");
+    menuBtn.textContent = open ? "✕ Zamknij" : "☰ Menu";
+});
+
+const initialPage = location.hash.slice(1);
+if (pages.includes(initialPage)) showPage(initialPage);
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+// ====================================
+// STATYSTYKI CZASU TWORZENIA
+// ====================================
+
+// Wcześniejszy szacunek: 234–312 godzin.
+// 273 godziny to środkowa wartość zakresu, a nie dokładny pomiar.
+const DEFAULT_HOURS = 273;
+const STORAGE_KEY = "crystalsp_creator_stats_v2";
+
+let previousSeconds = DEFAULT_HOURS * 3600;
+let sessionSeconds = 0;
+let lastTick = Date.now();
+
+function loadStats() {
+    try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (!saved) return;
+
+        const data = JSON.parse(saved);
+
+        if (Number.isFinite(data.previousSeconds) && data.previousSeconds >= 0) {
+            previousSeconds = data.previousSeconds;
+        }
+
+        if (Number.isFinite(data.sessionSeconds) && data.sessionSeconds >= 0) {
+            sessionSeconds = data.sessionSeconds;
+        }
+    } catch (error) {
+        console.warn("Nie udało się odczytać statystyk.", error);
+    }
+}
+
+function saveStats() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            previousSeconds,
+            sessionSeconds
+        }));
+    } catch (error) {
+        console.warn("Nie udało się zapisać statystyk.", error);
+    }
+}
+
+function formatTime(seconds) {
+    seconds = Math.max(0, Math.floor(seconds));
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const secs = seconds % 60;
+
+    return [
+        String(hours).padStart(2, "0"),
+        String(minutes).padStart(2, "0"),
+        String(secs).padStart(2, "0")
+    ].join(":");
+}
+
+function renderTime() {
+    const total = previousSeconds + sessionSeconds;
+    const hours = Math.floor(total / 3600);
+    const minutes = Math.floor((total % 3600) / 60);
+    const readable = `${hours.toLocaleString("pl-PL")} h ${String(minutes).padStart(2, "0")} min`;
+
+    document.getElementById("creatorTotal").textContent = readable;
+    document.getElementById("sessionClock").textContent = formatTime(sessionSeconds);
+}
+
+loadStats();
+
+document.getElementById("pastHours").value = Math.floor(previousSeconds / 3600);
+renderTime();
+
+document.getElementById("saveHours").addEventListener("click", () => {
+    const input = document.getElementById("pastHours");
+    const hours = Number(input.value);
+
+    if (!Number.isFinite(hours) || hours < 0 || hours > 100000) {
+        showToast("Podaj liczbę od 0 do 100 000 godzin.");
+        return;
+    }
+
+    previousSeconds = Math.floor(hours * 3600);
+    saveStats();
+    renderTime();
+
+    document.getElementById("timeMessage").textContent =
+        `Zapisano wcześniejszy szacunek: ${hours} godzin.`;
+
+    showToast("💾 Statystyki twórcy zapisane!");
+});
+
+// Licznik dolicza czas tylko wtedy, gdy strona jest otwarta i widoczna.
+setInterval(() => {
+    const now = Date.now();
+    const elapsed = Math.floor((now - lastTick) / 1000);
+    lastTick = now;
+
+    if (document.visibilityState === "visible" && elapsed > 0) {
+        sessionSeconds += elapsed;
+        renderTime();
+    }
+}, 1000);
+
+document.addEventListener("visibilitychange", () => {
+    lastTick = Date.now();
+    saveStats();
+});
+
+window.addEventListener("pagehide", saveStats);
+setInterval(saveStats, 5000);
+
+// ====================================
+// WYSZUKIWANIE I FILTROWANIE GIER
+// ====================================
+
+let activeFilter = "all";
+
+function filterGames() {
+    const query = document.getElementById("gameSearch").value.trim().toLowerCase();
+    const cards = [...document.querySelectorAll(".game-card")];
+    let shown = 0;
+
+    cards.forEach(card => {
+        const matchesText = (card.dataset.search + " " + card.textContent)
+            .toLowerCase().includes(query);
+        const matchesFilter = activeFilter === "all" || card.dataset.status === activeFilter;
+        const visible = matchesText && matchesFilter;
+
+        card.style.display = visible ? "" : "none";
+        if (visible) shown++;
+    });
+
+    let empty = document.getElementById("emptyGames");
+
+    if (shown === 0 && !empty) {
+        empty = document.createElement("div");
+        empty.id = "emptyGames";
+        empty.className = "empty";
+        empty.textContent = "Nie znaleziono gry pasującej do wyszukiwania.";
+        document.getElementById("gameGrid").appendChild(empty);
+    } else if (shown > 0 && empty) {
+        empty.remove();
+    }
+}
+
+document.getElementById("gameSearch").addEventListener("input", filterGames);
+
+document.querySelectorAll("[data-filter]").forEach(button => {
+    button.addEventListener("click", () => {
+        activeFilter = button.dataset.filter;
+
+        document.querySelectorAll("[data-filter]").forEach(item => {
+            item.classList.toggle("active", item === button);
+        });
+
+        filterGames();
+    });
+});
+
+// ====================================
+// INFORMACJE O GRACH
+// ====================================
+
+let toastTimer;
+
+function showToast(message) {
+    const toast = document.getElementById("toast");
+    toast.textContent = message;
+    toast.classList.add("show");
+
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 3000);
+}
+
+document.querySelectorAll(".project-info").forEach(button => {
+    button.addEventListener("click", () => {
+        const card = button.closest(".game-card");
+        const status = card?.querySelector(".status")?.textContent?.trim() || "Status nieustalony";
+        const aiHelp = card?.querySelector(".ai-tag") ? " Pomoc ChatGPT: oznaczona." : " Pomoc ChatGPT: nieoznaczona.";
+        showToast("🎮 " + button.dataset.name + " — " + status + "." + aiHelp);
+    });
+});
+
+// ====================================
+// RANGI — DEMO, NIE PRAWDZIWE KONTO
+// ====================================
+const rankPassword = document.getElementById("rankPassword");
+const rankResult = document.getElementById("rankResult");
+document.getElementById("rankLogin").addEventListener("click", () => {
+    const password = rankPassword.value;
+    if (password === "SSpokemon" || password === "SSchatGPT") {
+        rankResult.textContent = "Ranga: #Moderator 💜";
+        showToast("Zalogowano jako #Moderator");
+    } else if (password === "0001") {
+        rankResult.textContent = "Ranga: #Guest0001 💎";
+        showToast("Zalogowano jako #Guest0001");
+    } else {
+        rankResult.textContent = "Nieprawidłowe hasło. Ranga: #Gość";
+        showToast("Nie rozpoznano hasła.");
+    }
+});
+rankPassword.addEventListener("keydown", event => {
+    if (event.key === "Enter") document.getElementById("rankLogin").click();
+});
+document.getElementById("rankLogout").addEventListener("click", () => {
+    rankPassword.value = "";
+    rankResult.textContent = "Ranga: #Gość";
+    showToast("Wylogowano.");
+});
+
+// ====================================
+// STATYSTYKI PROJEKTÓW
+// ====================================
+function updateProjectStats() {
+    const cards = [...document.querySelectorAll(".game-card")];
+    const completed = cards.filter(card => card.dataset.status === "ready").length;
+    const aiProjects = cards.filter(card => card.querySelector(".ai-tag")).length;
+    document.getElementById("projectCount").textContent = cards.length;
+    document.getElementById("completedCount").textContent = completed;
+    document.getElementById("aiProjectCount").textContent = aiProjects;
+}
+updateProjectStats();
+
+// ====================================
+// AKTUALIZACJE — ZAPIS W TEJ PRZEGLĄDARCE
+// ====================================
+const UPDATES_KEY = "crystalsp_updates_v1";
+const updateForm = document.getElementById("updateForm");
+const updatesList = document.getElementById("updatesList");
+const updateDate = document.getElementById("updateDate");
+if (updateDate) updateDate.value = new Date().toISOString().slice(0, 10);
+
+function readUpdates() {
+    try {
+        const data = JSON.parse(localStorage.getItem(UPDATES_KEY) || "[]");
+        return Array.isArray(data) ? data.filter(item =>
+            item && typeof item.title === "string" &&
+            typeof item.date === "string" && typeof item.description === "string"
+        ) : [];
+    } catch (error) {
+        return [];
+    }
+}
+function renderUpdates() {
+    const updates = readUpdates().sort((a, b) => b.date.localeCompare(a.date));
+    updatesList.replaceChildren();
+    if (!updates.length) {
+        const empty = document.createElement("p");
+        empty.className = "muted small";
+        empty.textContent = "Nie dodano jeszcze własnych aktualizacji.";
+        updatesList.appendChild(empty);
+        return;
+    }
+    updates.forEach(item => {
+        const event = document.createElement("article");
+        event.className = "event update-item";
+        const date = document.createElement("div");
+        date.className = "date";
+        date.textContent = item.date;
+        const title = document.createElement("h3");
+        title.textContent = item.title;
+        const description = document.createElement("p");
+        description.textContent = item.description;
+        const remove = document.createElement("button");
+        remove.className = "btn secondary remove-update";
+        remove.type = "button";
+        remove.textContent = "Usuń wpis";
+        remove.addEventListener("click", () => {
+            const remaining = readUpdates().filter(update => update.id !== item.id);
+            localStorage.setItem(UPDATES_KEY, JSON.stringify(remaining));
+            renderUpdates();
+            showToast("Usunięto aktualizację.");
+        });
+        event.append(date, title, description, remove);
+        updatesList.appendChild(event);
+    });
+}
+if (updateForm && updateDate && updatesList) updateForm.addEventListener("submit", event => {
+    event.preventDefault();
+    const title = document.getElementById("updateTitle")?.value.trim() || "";
+    const date = updateDate.value;
+    const description = document.getElementById("updateDescription")?.value.trim() || "";
+    if (!title || !date || !description) {
+        showToast("Uzupełnij tytuł, datę i opis.");
+        return;
+    }
+    const updates = readUpdates();
+    updates.push({ id: Date.now().toString() + Math.random().toString(16).slice(2), title, date, description });
+    try {
+        localStorage.setItem(UPDATES_KEY, JSON.stringify(updates));
+        updateForm.reset();
+        updateDate.value = new Date().toISOString().slice(0, 10);
+        renderUpdates();
+        showToast("📰 Dodano aktualizację!");
+    } catch (error) {
+        showToast("Nie udało się zapisać wpisu w tej przeglądarce.");
+    }
+});
+renderUpdates();
+</script>
+</body>
+</html>
+14:52 23.10.2026
